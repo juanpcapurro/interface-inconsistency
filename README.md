@@ -8,7 +8,8 @@ Got tired of configuring dependencies & linting over and over again like some ki
 - npm scripts to lint via forge & solhint
 - `forge test` tests
 - bring your own foundry, though
-- no scripts/deployments so far
+- deploy scripts with some kind of dependency management through inheritance and not-all-that-clever
+deployment reuse
 
 ## rationale
 
@@ -17,5 +18,5 @@ Got tired of configuring dependencies & linting over and over again like some ki
 - foundry only, to keep things simple.
 
 ## TODO
-- [ ] get some way to deploy the contracts. I have like zero xp on foundry scripts.
+- [x] get some way to deploy the contracts. I have like zero xp on foundry scripts.
 - [ ] try to use nixOS to install things instead of having the user bring their own foundry and using npm for solhint
