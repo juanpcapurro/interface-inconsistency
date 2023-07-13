@@ -9,6 +9,6 @@
     "test": "forge test"
   },
   "devDependencies": {
-    "solhint-community": "^3.5.1"
+    "solhint-community": "^3.6.0"
   }
 }
