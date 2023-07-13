@@ -1,22 +1,36 @@
-# Foundry boilerplate
+# solidity inconsistency I found
 
-Got tired of configuring dependencies & linting over and over again like some kind of groundhound day for every little proof of concept I come up with, so I made this, hopefully is of help to you too.
+## context
+I was working using
+[solhint-community](https://github.com/solhint-community/solhint-community/)'s
+new rule in [sablier/v2-periphery to search for false positives and other
+issues](https://github.com/sablier-labs/v2-periphery/pull/143) 
 
-## what's in the box
-- `npm install --include=dev` (tried with node 16) should get you set up with linting and dependencies (both those of npm and those of git)
-- CI should work on a github repo right away
-- npm scripts to lint via forge & solhint
-- `forge test` tests
-- bring your own foundry, though
-- deploy scripts with some kind of dependency management through inheritance and not-all-that-clever
-deployment reuse
+when I found the expected name of a function parameter was different when I used
+the derived type vs when I used the type of the interface.
 
-## rationale
+## current behaviour
+It's specified in [a small foundry test](./test/Interface.t.sol)
 
-- npm minimalism: I really don't want to use npm. But a `package.json` is where most people look for the project's scripts, and I had to install solhint somehow. Using a makefile felt extremely overkill & misguided, and using a shell script with a `case...esac` for every possible `argv[1]` felt tempting but wrong in it's own way too. Also using the `postinstall` hook to initialize dependencies looks like will help avoid some footguns.
-- submodules for dependencies: that's the foundry way to do things and I like it. Vendoring ftw.
-- foundry only, to keep things simple.
+## why it confuses me
+I expect methods of all instances implementing an interface to be callable in
+the same manner, regardless of the type of the variable where the actual method
+is accessed (as long as said type implements the interface, of course).
 
-## TODO
-- [x] get some way to deploy the contracts. I have like zero xp on foundry scripts.
-- [ ] try to use nixOS to install things instead of having the user bring their own foundry and using npm for solhint
+## what I believe should happen
+
+It should not be a valid implementation of an interface's method to use different
+parameter names.
+
+## versions 
+
+    [N] capu ~/s/interface-inconsistency (master) [1]> forge build
+    [⠒] Compiling...
+    [⠑] Compiling 18 files with 0.8.20
+    [⠊] Solc 0.8.20 finished in 2.53s
+    [N] capu ~/s/interface-inconsistency (master)> ~/.svm/0.8.20/solc-0.8.20 --version
+    solc, the solidity compiler commandline interface
+    Version: 0.8.20+commit.a1b79de6.Linux.g++
+    [I] capu ~/s/interface-inconsistency (master)> forge -V
+    forge 0.2.0 (08a629a 2023-06-03T00:04:22.625130135Z)
+
